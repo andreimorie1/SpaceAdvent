@@ -74,6 +74,11 @@ public class QuizActivity extends AppCompatActivity {
         updateProgress(rounds);
         generateQuestion(maxNum, minNum, operation);
 
+        if (timerEnabled){
+            //Starts timer
+            startTimer();
+        }
+
 
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +108,9 @@ public class QuizActivity extends AppCompatActivity {
                         btn_option3.setBackgroundResource(R.drawable.button_option);
                         btn_option4.setBackgroundResource(R.drawable.button_option);
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card);
+                        if (timerEnabled){
+                            startTimer();
+                        }
                     }
                     else {
                         Toast.makeText(QuizActivity.this, "Finished Quiz with a score of " + score, Toast.LENGTH_SHORT).show();
@@ -196,7 +204,6 @@ public class QuizActivity extends AppCompatActivity {
         timerTime = new CountDownTimer(toMilliSec, 1000) {
             @Override
             public void onTick(long l) {
-
             }
 
             @Override
