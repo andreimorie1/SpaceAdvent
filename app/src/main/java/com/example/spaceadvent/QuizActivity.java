@@ -1,6 +1,6 @@
 package com.example.spaceadvent;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,13 +23,12 @@ import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
 
-    TextView question, progress, userAnswerPreview;
+    TextView question, progress, userAnswerPreview, timerText;
     Button btn_option1, btn_option2, btn_option3, btn_option4, btn_next, btn_click;
-    private int num1 , num2, correctAns, score, timer, userAnswer = -1, currentProgress = 1 ;
-    private boolean isClicked = false, changeAns;
+    int num1, num2, correctAns, score, userAnswer = -100, currentProgress = 1 ;
+    boolean isClicked = false, changeAns;
     ConstraintLayout mainCardLayout;
     List<Integer> answers = new ArrayList<>();
-    CountDownTimer timerTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +45,18 @@ public class QuizActivity extends AppCompatActivity {
         int minNum = getIntent().getIntExtra("minNum",1);
         int maxNum = getIntent().getIntExtra("maxNum",10);
         int rounds = getIntent().getIntExtra("rounds",5);
-        Boolean timerEnabled = getIntent().getBooleanExtra("timerEnabled",false);
-        timer = getIntent().getIntExtra("timer",0);
+        boolean timerEnabled = getIntent().getBooleanExtra("timerEnabled",false);
+        int timer = getIntent().getIntExtra("timer",0);
         Boolean isDefault = getIntent().getBooleanExtra("isDefault",false);
-        String defaultString = "error";
         String operation = getIntent().getStringExtra("operation");
         changeAns = getIntent().getBooleanExtra("changeAns",true);
+
+        Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
+        //change intent if operation is null
+        if (operation == null){
+            startActivity(new Intent(QuizActivity.this, Choose_Operation.class));
+            Toast.makeText(QuizActivity.this, "Error: Operation is not stated", Toast.LENGTH_SHORT).show();
+        }
 
         mainCardLayout = findViewById(R.id.mainCard);
         question = findViewById(R.id.question);
@@ -63,7 +67,7 @@ public class QuizActivity extends AppCompatActivity {
         btn_option3 = findViewById(R.id.btn_option3);
         btn_option4 = findViewById(R.id.btn_option4);
         btn_next = findViewById(R.id.btn_next);
-
+        timerText = findViewById(R.id.timerText);
 
 
         findViewById(R.id.back_button).setOnClickListener(
@@ -73,12 +77,6 @@ public class QuizActivity extends AppCompatActivity {
         //Sets progress and Questions on Create
         updateProgress(rounds);
         generateQuestion(maxNum, minNum, operation);
-
-        if (timerEnabled){
-            //Starts timer
-            startTimer();
-        }
-
 
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,10 +89,19 @@ public class QuizActivity extends AppCompatActivity {
                     score += 1;
                 }
                 else {
-                    Toast.makeText(QuizActivity.this, "Wrong Answer!", Toast.LENGTH_SHORT).show();
-                    btn_click.setBackgroundResource(R.drawable.btn_option_wrong);
-                    mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_wrong);
+                    //Checks if answer is default or not (setting btn resource "btn_option_wrong" without selecting an answer crashes the app for some reason
+                    if (userAnswer == -100){
+                        Toast.makeText(QuizActivity.this, "Wrong Answer!", Toast.LENGTH_SHORT).show();
+                        mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_wrong);
+                    } else {
+                        Toast.makeText(QuizActivity.this, "Wrong Answer!", Toast.LENGTH_SHORT).show();
+                        btn_click.setBackgroundResource(R.drawable.btn_option_wrong);
+                        mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_wrong);
+                    }
+
                 }
+
+
                 new Handler().postDelayed(() -> {
                     if (currentProgress < rounds){
                         currentProgress += 1;
@@ -109,15 +116,22 @@ public class QuizActivity extends AppCompatActivity {
                         btn_option4.setBackgroundResource(R.drawable.button_option);
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card);
                         if (timerEnabled){
-                            startTimer();
+                            startTimer(timer);
                         }
                     }
                     else {
+                        //Quiz finish
                         Toast.makeText(QuizActivity.this, "Finished Quiz with a score of " + score, Toast.LENGTH_SHORT).show();
                     }
                 }, 1500);
             }
+
         });
+
+        //starts timer
+        if (timerEnabled){
+            startTimer(timer);
+        }
     }
 
     public void updateProgress(int rounds){
@@ -175,6 +189,7 @@ public class QuizActivity extends AppCompatActivity {
             btn_click = (Button)view;
             btn_click.setBackgroundResource(R.drawable.btn_option_clicked);
 
+
             // Update userAnswer and userAnswerPreview
             userAnswer = Integer.parseInt(btn_click.getText().toString());
             userAnswerPreview.setText(String.valueOf(userAnswer));
@@ -199,18 +214,23 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    public void startTimer(){
-        Long toMilliSec = (long) timer * 1000;
-        timerTime = new CountDownTimer(toMilliSec, 1000) {
+    public void startTimer(int timer){
+        Long toMilliSec = (long) (timer + 1) * 1000;
+        CountDownTimer timerTime = new CountDownTimer(toMilliSec, 1000) {
             @Override
-            public void onTick(long l) {
+            public void onTick(long milliUntilTime) {
+                long timeLeft = milliUntilTime / 1000;
+                timerText.setText(String.valueOf(timeLeft));
             }
 
             @Override
             public void onFinish() {
-            btn_next.performClick();
+                btn_next.performClick();
+                btn_next.setText("timer Ended");
             }
         };
+            timerTime.start();
+
     }
 
 

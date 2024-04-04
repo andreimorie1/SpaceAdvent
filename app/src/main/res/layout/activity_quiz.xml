@@ -70,6 +70,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
+        <TextView
+            android:id="@+id/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="89dp"
+            android:fontFamily="@font/lemonmilk_bold"
+            android:text=""
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quiz_type" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -94,6 +109,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,8 +131,7 @@
                 android:onClick="btn_option_click"
                 android:text="A"
                 android:textColor="@color/white"
-                android:textSize="25dp"
-                />
+                android:textSize="25dp" />
 
             <Button
                 android:id="@+id/btn_option3"
@@ -128,7 +143,7 @@
                 android:onClick="btn_option_click"
                 android:text="C"
                 android:textColor="@color/white"
-                android:textSize="25dp"/>
+                android:textSize="25dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -146,7 +161,7 @@
                 android:onClick="btn_option_click"
                 android:text="B"
                 android:textColor="@color/white"
-                android:textSize="25dp"/>
+                android:textSize="25dp" />
 
             <Button
                 android:id="@+id/btn_option4"
@@ -158,7 +173,7 @@
                 android:onClick="btn_option_click"
                 android:text="D"
                 android:textColor="@color/white"
-                android:textSize="25dp"/>
+                android:textSize="25dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -174,8 +189,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.213">
+        app:layout_constraintTop_toTopOf="@+id/background_image"
+        app:layout_constraintVertical_bias="0.288">
 
         <TextView
             android:id="@+id/question"

@@ -131,7 +131,7 @@ public class difficultyControl extends AppCompatActivity {
                     intent.putExtra("timer", timer);
                     intent.putExtra("isDefault", isDefault);
 
-                    Toast.makeText(difficultyControl.this, "Difficulty Set", Toast.LENGTH_LONG).show();
+                    Toast.makeText(difficultyControl.this, "Difficulty Set", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
             }
