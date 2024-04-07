@@ -29,11 +29,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         button1 = findViewById(R.id.button);
+        button2 = findViewById(R.id.button2);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, Choose_Operation.class));
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, QuizResult.class));
             }
         });
     }

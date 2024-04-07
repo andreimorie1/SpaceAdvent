@@ -47,11 +47,12 @@ public class QuizActivity extends AppCompatActivity {
         int rounds = getIntent().getIntExtra("rounds",5);
         boolean timerEnabled = getIntent().getBooleanExtra("timerEnabled",false);
         int timer = getIntent().getIntExtra("timer",0);
-        Boolean isDefault = getIntent().getBooleanExtra("isDefault",false);
         String operation = getIntent().getStringExtra("operation");
         changeAns = getIntent().getBooleanExtra("changeAns",true);
 
-        Intent intent = new Intent(QuizActivity.this, QuizActivity.class);
+        //Intent
+        Intent intent = new Intent(QuizActivity.this, QuizResult.class);
+
         //change intent if operation is null
         if (operation == null){
             startActivity(new Intent(QuizActivity.this, Choose_Operation.class));
@@ -83,7 +84,6 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Check if answer is correct or not
                 if (userAnswer == correctAns){
-                    Toast.makeText(QuizActivity.this, "Correct answer!", Toast.LENGTH_SHORT).show();
                     btn_click.setBackgroundResource(R.drawable.btn_option_correct);
                     mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_correct);
                     score += 1;
@@ -91,22 +91,17 @@ public class QuizActivity extends AppCompatActivity {
                 else {
                     //Checks if answer is default or not (setting btn resource "btn_option_wrong" without selecting an answer crashes the app for some reason
                     if (userAnswer == -100){
-                        Toast.makeText(QuizActivity.this, "Wrong Answer!", Toast.LENGTH_SHORT).show();
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_wrong);
                     } else {
-                        Toast.makeText(QuizActivity.this, "Wrong Answer!", Toast.LENGTH_SHORT).show();
                         btn_click.setBackgroundResource(R.drawable.btn_option_wrong);
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_wrong);
                     }
 
                 }
 
-
                 new Handler().postDelayed(() -> {
                     if (currentProgress < rounds){
                         currentProgress += 1;
-                        updateProgress(rounds);
-                        generateQuestion(maxNum, minNum, operation);
                         isClicked = false;
                         userAnswer = -100;
                         userAnswerPreview.setText("");
@@ -115,15 +110,25 @@ public class QuizActivity extends AppCompatActivity {
                         btn_option3.setBackgroundResource(R.drawable.button_option);
                         btn_option4.setBackgroundResource(R.drawable.button_option);
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card);
+                        updateProgress(rounds);
+                        generateQuestion(maxNum, minNum, operation);
                         if (timerEnabled){
                             startTimer(timer);
                         }
                     }
                     else {
                         //Quiz finish
-                        Toast.makeText(QuizActivity.this, "Finished Quiz with a score of " + score, Toast.LENGTH_SHORT).show();
+                        intent.putExtra("minNum", minNum);
+                        intent.putExtra("maxNum", maxNum);
+                        intent.putExtra("rounds", rounds);
+                        intent.putExtra("changeAns", changeAns);
+                        intent.putExtra("timerEnabled", timerEnabled);
+                        intent.putExtra("timer", timer);
+                        intent.putExtra("operation", operation);
+                        intent.putExtra("score", score);
+                        startActivity(new Intent(intent));
                     }
-                }, 1500);
+                }, 1000);
             }
 
         });
@@ -135,23 +140,24 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void updateProgress(int rounds){
-        progress.setText((currentProgress) + " / " + rounds);
+        progress.setText(currentProgress + " / " + rounds);
 
     }
     //Generate question and answer
   public void generateQuestion(int maxNum, int minNum, String operation){
+
         Random random = new Random();
-
-      num1 = random.nextInt(maxNum) + minNum;
-      num2 = random.nextInt(maxNum) + minNum;
-
-      question.setText(num1 + " "+ operation + " " + num2);
-
       if (operation.equals("+")){
+          num1 = random.nextInt(maxNum) + minNum;
+          num2 = random.nextInt(maxNum) + minNum;
           correctAns = num1 + num2;
       } else if (operation.equals("-")){
+          num1 = random.nextInt(maxNum) + minNum;
+          num2 = random.nextInt(num1);
           correctAns = num1 - num2;
       }
+
+      question.setText(num1 + " "+ operation + " " + num2);
 
       answers = new ArrayList<>();
       answers.add(correctAns);
@@ -164,8 +170,8 @@ public class QuizActivity extends AppCompatActivity {
                   answers.add(randomAns);
               }
           }
-          if (operation.equals("-")) {
-              int randomAns = num1 - (random.nextInt(num1) + 1);
+          else if (operation.equals("-")) {
+              int randomAns = num1 - (random.nextInt(num1) +1);
               //To avoid duplication of answers
               if (!answers.contains(randomAns)) {
                   answers.add(randomAns);
@@ -179,7 +185,6 @@ public class QuizActivity extends AppCompatActivity {
       btn_option2.setText(Integer.toString(answers.get(1)));
       btn_option3.setText(Integer.toString(answers.get(2)));
       btn_option4.setText(Integer.toString(answers.get(3)));
-
   }
 
 
@@ -188,7 +193,6 @@ public class QuizActivity extends AppCompatActivity {
             // Set the background of the clicked button
             btn_click = (Button)view;
             btn_click.setBackgroundResource(R.drawable.btn_option_clicked);
-
 
             // Update userAnswer and userAnswerPreview
             userAnswer = Integer.parseInt(btn_click.getText().toString());

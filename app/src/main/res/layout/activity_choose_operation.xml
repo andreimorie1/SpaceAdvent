@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="275dp"
         android:background="@drawable/operation_bg_bottom"
         android:paddingTop="20dp"
         android:paddingBottom="10sp"
@@ -44,95 +44,123 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-            <LinearLayout
-                android:layout_width="205dp"
+
+            <ScrollView
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lemonmilk_reguar"
-                    android:gravity="start"
-                    android:paddingStart="20dp"
-                    android:text="Addition Quiz"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/textView9"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:text="- Strengthen mental math"
-                    android:textColor="@color/black" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:text="- Improve fluency to basic addition"
-                    android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lemonmilk_reguar"
+                        android:gravity="start"
+                        android:paddingStart="20dp"
+                        android:text="Addition Quiz"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:text="- Develop strategies for breaking down problems into manegable steps"
-                    android:textColor="@color/black" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingStart="20dp"
+                        android:textSize="17sp"
+                        android:text="- Strengthen mental math"
+                        android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:text="- Build Confidence in addition operations"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="17sp"
+                        android:paddingStart="20dp"
+                        android:text="- Improve fluency to basic addition"
+                        android:textColor="@color/black" />
 
-            <LinearLayout
-                android:layout_width="205dp"
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="17sp"
+                        android:paddingStart="20dp"
+                        android:text="- Develop strategies for breaking down problems into manegable steps"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="17sp"
+                        android:paddingStart="20dp"
+                        android:text="- Build Confidence in addition operations"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </ScrollView>
+
+            <ScrollView
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/textView8"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lemonmilk_reguar"
-                    android:gravity="end"
-                    android:paddingEnd="20dp"
-                    android:text="Subtraction Quiz"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:text="- Master subtraction techniques"
-                    android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:text="- Deepen comprehension of subtraction concepts such as regrouping and borrowing"
-                    android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lemonmilk_reguar"
 
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:text="- Practice identifying and correcting errors"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                        android:gravity="end"
+                        android:paddingEnd="20dp"
+                        android:text="Subtraction Quiz"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="17sp"
+                        android:paddingStart="20dp"
+                        android:text="- Master subtraction techniques"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="17sp"
+                        android:paddingStart="20dp"
+                        android:text="- Deepen comprehension of subtraction concepts such as regrouping and borrowing"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="17sp"
+                        android:paddingStart="20dp"
+                        android:text="- Practice identifying and correcting errors"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </ScrollView>
+
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
