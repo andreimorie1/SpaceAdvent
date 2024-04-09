@@ -17,8 +17,8 @@ public class difficultyControl extends AppCompatActivity {
 
     EditText minNum, maxNum, roundsNum, timerTime;
     Button changeAnsOn, changeAnsOff, timerOn, timerOff, reset, save;
-    int minimumNumber = 1, maximumNumber = 10,numberRounds = 5, timer = 0;
-    boolean timerEnabled = false, answerChangable = true, isDefault = true;
+    int minimumNumber, maximumNumber,numberRounds, timer;
+    boolean timerEnabled = false, answerChangable = true;
 
 
 
@@ -86,7 +86,6 @@ public class difficultyControl extends AppCompatActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isDefault = true;
                 minimumNumber = 1;
                 maximumNumber = 10;
                 numberRounds = 5;
@@ -119,9 +118,6 @@ public class difficultyControl extends AppCompatActivity {
                     if (timerEnabled){
                         timer = Integer.parseInt(timerTime.getText().toString());
                     }
-                    if (minimumNumber != 1 && maximumNumber != 10 && numberRounds != 5 && timer != 0 && timerEnabled){
-                        isDefault = false;
-                    }
 
                     intent.putExtra("minNum", minimumNumber);
                     intent.putExtra("maxNum", maximumNumber);
@@ -129,7 +125,6 @@ public class difficultyControl extends AppCompatActivity {
                     intent.putExtra("changeAns", answerChangable);
                     intent.putExtra("timerEnabled", timerEnabled);
                     intent.putExtra("timer", timer);
-                    intent.putExtra("isDefault", isDefault);
 
                     Toast.makeText(difficultyControl.this, "Difficulty Set", Toast.LENGTH_SHORT).show();
                     startActivity(intent);

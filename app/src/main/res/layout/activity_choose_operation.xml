@@ -176,8 +176,9 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
         <LinearLayout
-            android:layout_width="205dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/operation_addition"
             android:orientation="vertical"
             android:paddingStart="10dp"
@@ -241,8 +242,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="205dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/operation_subtraction"
             android:gravity="end"
             android:orientation="vertical"

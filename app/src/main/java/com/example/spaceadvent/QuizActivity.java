@@ -132,7 +132,6 @@ public class QuizActivity extends AppCompatActivity {
             }
 
         });
-
         //starts timer
         if (timerEnabled){
             startTimer(timer);
@@ -230,11 +229,9 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 btn_next.performClick();
-                btn_next.setText("timer Ended");
             }
         };
             timerTime.start();
-
     }
 
 
