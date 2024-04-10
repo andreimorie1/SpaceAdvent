@@ -1,6 +1,7 @@
 package com.example.spaceadvent;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,7 @@ public class difficultyControl extends AppCompatActivity {
     int minimumNumber, maximumNumber,numberRounds, timer;
     boolean timerEnabled = false, answerChangable = true;
 
-
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,9 @@ public class difficultyControl extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        playMusic(R.raw.sans, true, false);
+
         minNum = findViewById(R.id.minNum);
         maxNum = findViewById(R.id.maxNum);
         roundsNum = findViewById(R.id.roundNum);
@@ -132,5 +136,14 @@ public class difficultyControl extends AppCompatActivity {
             }
         });
     }
-
+    public void playMusic(int resource, boolean isLooping, boolean stopService){
+        Intent serviceIntent = new Intent(this, MusicService.class);
+        if (stopService){
+            stopService(serviceIntent);
+        } else {
+            serviceIntent.putExtra("musicResource", resource);
+            serviceIntent.putExtra("isLooping", isLooping);
+            startService(serviceIntent);
+        }
+    }
 }

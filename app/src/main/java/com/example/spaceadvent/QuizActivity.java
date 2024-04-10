@@ -29,6 +29,7 @@ public class QuizActivity extends AppCompatActivity {
     boolean isClicked = false, changeAns;
     ConstraintLayout mainCardLayout;
     List<Integer> answers = new ArrayList<>();
+    Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,10 @@ public class QuizActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        int[] bgMusic = {R.raw.dummy, R.raw.metal_crusher, R.raw.death_by_glamour, R.raw.spider_dance};
+
+        playMusic(bgMusic[random.nextInt(bgMusic.length)], false, false);
 
         //Extracting data from intent
         int minNum = getIntent().getIntExtra("minNum",1);
@@ -69,11 +74,6 @@ public class QuizActivity extends AppCompatActivity {
         btn_option4 = findViewById(R.id.btn_option4);
         btn_next = findViewById(R.id.btn_next);
         timerText = findViewById(R.id.timerText);
-
-
-        findViewById(R.id.back_button).setOnClickListener(
-                a -> finish()
-        );
 
         //Sets progress and Questions on Create
         updateProgress(rounds);
@@ -145,7 +145,7 @@ public class QuizActivity extends AppCompatActivity {
     //Generate question and answer
   public void generateQuestion(int maxNum, int minNum, String operation){
 
-        Random random = new Random();
+
       if (operation.equals("+")){
           num1 = random.nextInt(maxNum) + minNum;
           num2 = random.nextInt(maxNum) + minNum;
@@ -233,6 +233,15 @@ public class QuizActivity extends AppCompatActivity {
         };
             timerTime.start();
     }
-
+    public void playMusic(int resource, boolean isLooping, boolean stopService){
+        Intent serviceIntent = new Intent(this, MusicService.class);
+        if (stopService){
+            stopService(serviceIntent);
+        } else {
+            serviceIntent.putExtra("musicResource", resource);
+            serviceIntent.putExtra("isLooping", isLooping);
+            startService(serviceIntent);
+        }
+    }
 
 }

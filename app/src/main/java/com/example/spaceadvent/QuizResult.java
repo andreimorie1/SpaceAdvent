@@ -29,6 +29,8 @@ public class QuizResult extends AppCompatActivity {
             return insets;
         });
 
+        playMusic(R.raw.dogsong, true, false);
+
         Intent intent = new Intent(QuizResult.this, Choose_Operation.class);
 
         //INSERT HIGHSCORE FROM FIREBASE
@@ -101,5 +103,16 @@ public class QuizResult extends AppCompatActivity {
             operationText.setText("woshit");
         }
 
+    }
+
+    public void playMusic(int resource, boolean isLooping, boolean stopService){
+        Intent serviceIntent = new Intent(this, MusicService.class);
+        if (stopService){
+            stopService(serviceIntent);
+        } else {
+            serviceIntent.putExtra("musicResource", resource);
+            serviceIntent.putExtra("isLooping", isLooping);
+            startService(serviceIntent);
+        }
     }
 }

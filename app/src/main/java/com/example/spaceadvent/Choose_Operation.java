@@ -1,6 +1,7 @@
 package com.example.spaceadvent;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,8 @@ public class Choose_Operation extends AppCompatActivity {
 
     Button difficultyControl, additionQuiz, subtractionQuiz;
     TextView diffcultyNums, difficultyRounds, difficultyChangeAns, difficultytimer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,9 @@ public class Choose_Operation extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        playMusic(R.raw.sans, true, false);
+
         diffcultyNums = findViewById(R.id.difficultyNumber);
         difficultyRounds = findViewById(R.id.difficultyRounds);
         difficultyChangeAns = findViewById(R.id.difficultyFreedom);
@@ -79,7 +85,9 @@ public class Choose_Operation extends AppCompatActivity {
         additionQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                playMusic(1,true,true);
                 intent.putExtra("operation", "+");
+
                 startActivity(intent);
             }
         });
@@ -87,12 +95,22 @@ public class Choose_Operation extends AppCompatActivity {
         subtractionQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                playMusic(1,true,true);
                 intent.putExtra("operation", "-");
                 startActivity(intent);
-
             }
         });
     }
 
+    public void playMusic(int resource, boolean isLooping, boolean stopService){
+        Intent serviceIntent = new Intent(this, MusicService.class);
+        if (stopService){
+            stopService(serviceIntent);
+        } else {
+            serviceIntent.putExtra("musicResource", resource);
+            serviceIntent.putExtra("isLooping", isLooping);
+            startService(serviceIntent);
+        }
+    }
 
 }
