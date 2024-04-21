@@ -29,7 +29,7 @@ public class QuizResult extends AppCompatActivity {
             return insets;
         });
 
-        musicPlayer.start(this, R.raw.dogsong, true);
+        musicPlayer.playMusic(this, R.raw.dogsong, true);
         Intent intent = new Intent(QuizResult.this, Choose_Operation.class);
 
         //INSERT HIGHSCORE FROM FIREBASE
@@ -100,8 +100,6 @@ public class QuizResult extends AppCompatActivity {
             operationText.setText("Addition");
         } else if (operation.equals("-")){
             operationText.setText("Subtraction");
-        } else {
-            operationText.setText("woshit");
         }
 
     }

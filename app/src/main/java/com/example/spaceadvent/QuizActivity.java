@@ -44,7 +44,8 @@ public class QuizActivity extends AppCompatActivity {
 
         int[] bgMusic = {R.raw.dummy, R.raw.metal_crusher, R.raw.death_by_glamour, R.raw.spider_dance};
 
-        musicPlayer.start(this, bgMusic[random.nextInt(bgMusic.length)], false);
+        musicPlayer.playRandom(this, bgMusic);
+
 
         //Extracting data from intent
         int minNum = getIntent().getIntExtra("minNum",1);
@@ -86,7 +87,7 @@ public class QuizActivity extends AppCompatActivity {
                 if (userAnswer == correctAns){
                     btn_click.setBackgroundResource(R.drawable.btn_option_correct);
                     mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_correct);
-                    score += 1;
+                    score = score + 1;
                 }
                 else {
                     //Checks if answer is default or not (setting btn resource "btn_option_wrong" without selecting an answer crashes the app for some reason
@@ -95,23 +96,26 @@ public class QuizActivity extends AppCompatActivity {
                     } else {
                         btn_click.setBackgroundResource(R.drawable.btn_option_wrong);
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card_wrong);
+                        userAnswer = -100;
                     }
 
                 }
-
                 new Handler().postDelayed(() -> {
                     if (currentProgress < rounds){
-                        currentProgress += 1;
-                        isClicked = false;
-                        userAnswer = -100;
-                        userAnswerPreview.setText("");
+                        currentProgress = currentProgress + 1;
+                        if (changeAns){
+                            isClicked = false;
+                        }
+                        if (timerEnabled){
+                            startTimer(timer);
+                        }
+                        if (userAnswer != -100){
+                            userAnswerPreview.setText("");
+                        }
                         btn_click.setBackgroundResource(R.drawable.button_option);
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card);
                         updateProgress(rounds);
                         generateQuestion(maxNum, minNum, operation);
-                        if (timerEnabled){
-                            startTimer(timer);
-                        }
                     }
                     else {
                         //Quiz finish
@@ -135,9 +139,6 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    public void finishQuiz(){
-
-    }
     public void updateProgress(int rounds){
         progress.setText(currentProgress + " / " + rounds);
 
@@ -243,5 +244,10 @@ public class QuizActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         musicPlayer.unpause();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        musicPlayer.stop();
     }
 }

@@ -35,7 +35,7 @@ public class difficultyControl extends AppCompatActivity {
         });
 
         //play music
-        musicPlayer.start(this, 1, true);
+//        musicPlayer.start(this, 1, true);
 
         minNum = findViewById(R.id.minNum);
         maxNum = findViewById(R.id.maxNum);
@@ -129,6 +129,7 @@ public class difficultyControl extends AppCompatActivity {
                     intent.putExtra("changeAns", answerChangable);
                     intent.putExtra("timerEnabled", timerEnabled);
                     intent.putExtra("timer", timer);
+                    intent.putExtra("musicControl", 1);
 
                     startActivity(intent);
                 }

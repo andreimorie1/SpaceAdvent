@@ -29,8 +29,6 @@ public class Choose_Operation extends AppCompatActivity {
             return insets;
         });
 
-        musicPlayer.start(this, R.raw.sans, true);
-
         diffcultyNums = findViewById(R.id.difficultyNumber);
         difficultyRounds = findViewById(R.id.difficultyRounds);
         difficultyChangeAns = findViewById(R.id.difficultyFreedom);
@@ -57,6 +55,11 @@ public class Choose_Operation extends AppCompatActivity {
         Boolean timerEnabled = getIntent().getBooleanExtra("timerEnabled",false);
         int timer = getIntent().getIntExtra("timer",0);
         Boolean isDefault = getIntent().getBooleanExtra("isDefault",false);
+        int musicControl = getIntent().getIntExtra("musicControl", 0);
+
+        if (musicControl == 0){
+            musicPlayer.playMusic(this, R.raw.sans, true);
+        } else
 
         //Store data for quiz
         intent.putExtra("minNum", minNum);
@@ -85,7 +88,6 @@ public class Choose_Operation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent.putExtra("operation", "+");
-
                 startActivity(intent);
             }
         });
