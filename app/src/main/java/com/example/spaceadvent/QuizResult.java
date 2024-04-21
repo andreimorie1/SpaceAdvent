@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class QuizResult extends AppCompatActivity {
 
-    TextView textHighScore, diffcultyNums, difficultyRounds, difficultyChangeAns, difficultytimer, operationText, scoreInfo;
+    TextView textHighScore, diffcultyNums, difficultyRounds, difficultyChangeAns, difficultytimer, operationText, scoreInfo, scoreInfo2;
     Button btn_done;
 
     @Override
@@ -29,8 +29,7 @@ public class QuizResult extends AppCompatActivity {
             return insets;
         });
 
-        playMusic(R.raw.dogsong, true, false);
-
+        musicPlayer.start(this, R.raw.dogsong, true);
         Intent intent = new Intent(QuizResult.this, Choose_Operation.class);
 
         //INSERT HIGHSCORE FROM FIREBASE
@@ -53,6 +52,7 @@ public class QuizResult extends AppCompatActivity {
         difficultytimer = findViewById(R.id.difficultyTimer);
         textHighScore = findViewById(R.id.TextHighScore);
         scoreInfo = findViewById(R.id.scoreInfo);
+        scoreInfo2 = findViewById(R.id.scoreInfo2);
         btn_done = findViewById(R.id.btn_done);
 
         btn_done.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +73,7 @@ public class QuizResult extends AppCompatActivity {
 
         //Change score Text
         scoreInfo.setText(Integer.toString(score));
+        scoreInfo2.setText(Integer.toString(score));
 
         //Change min and max numbers that came up
         diffcultyNums.setText(minNum + " - " + maxNum);
@@ -105,14 +106,14 @@ public class QuizResult extends AppCompatActivity {
 
     }
 
-    public void playMusic(int resource, boolean isLooping, boolean stopService){
-        Intent serviceIntent = new Intent(this, MusicService.class);
-        if (stopService){
-            stopService(serviceIntent);
-        } else {
-            serviceIntent.putExtra("musicResource", resource);
-            serviceIntent.putExtra("isLooping", isLooping);
-            startService(serviceIntent);
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        musicPlayer.pause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        musicPlayer.unpause();
     }
 }

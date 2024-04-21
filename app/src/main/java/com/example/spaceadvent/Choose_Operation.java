@@ -1,7 +1,6 @@
 package com.example.spaceadvent;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +29,7 @@ public class Choose_Operation extends AppCompatActivity {
             return insets;
         });
 
-        playMusic(R.raw.sans, true, false);
+        musicPlayer.start(this, R.raw.sans, true);
 
         diffcultyNums = findViewById(R.id.difficultyNumber);
         difficultyRounds = findViewById(R.id.difficultyRounds);
@@ -85,7 +84,6 @@ public class Choose_Operation extends AppCompatActivity {
         additionQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(1,true,true);
                 intent.putExtra("operation", "+");
 
                 startActivity(intent);
@@ -95,22 +93,19 @@ public class Choose_Operation extends AppCompatActivity {
         subtractionQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(1,true,true);
                 intent.putExtra("operation", "-");
                 startActivity(intent);
             }
         });
     }
-
-    public void playMusic(int resource, boolean isLooping, boolean stopService){
-        Intent serviceIntent = new Intent(this, MusicService.class);
-        if (stopService){
-            stopService(serviceIntent);
-        } else {
-            serviceIntent.putExtra("musicResource", resource);
-            serviceIntent.putExtra("isLooping", isLooping);
-            startService(serviceIntent);
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        musicPlayer.pause();
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        musicPlayer.unpause();
+    }
 }

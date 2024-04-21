@@ -44,7 +44,7 @@ public class QuizActivity extends AppCompatActivity {
 
         int[] bgMusic = {R.raw.dummy, R.raw.metal_crusher, R.raw.death_by_glamour, R.raw.spider_dance};
 
-        playMusic(bgMusic[random.nextInt(bgMusic.length)], false, false);
+        musicPlayer.start(this, bgMusic[random.nextInt(bgMusic.length)], false);
 
         //Extracting data from intent
         int minNum = getIntent().getIntExtra("minNum",1);
@@ -105,10 +105,7 @@ public class QuizActivity extends AppCompatActivity {
                         isClicked = false;
                         userAnswer = -100;
                         userAnswerPreview.setText("");
-                        btn_option1.setBackgroundResource(R.drawable.button_option);
-                        btn_option2.setBackgroundResource(R.drawable.button_option);
-                        btn_option3.setBackgroundResource(R.drawable.button_option);
-                        btn_option4.setBackgroundResource(R.drawable.button_option);
+                        btn_click.setBackgroundResource(R.drawable.button_option);
                         mainCardLayout.setBackgroundResource(R.drawable.quiz_layout_card);
                         updateProgress(rounds);
                         generateQuestion(maxNum, minNum, operation);
@@ -130,14 +127,17 @@ public class QuizActivity extends AppCompatActivity {
                     }
                 }, 1000);
             }
-
         });
         //starts timer
         if (timerEnabled){
             startTimer(timer);
+            startTimer(timer);
         }
     }
 
+    public void finishQuiz(){
+
+    }
     public void updateProgress(int rounds){
         progress.setText(currentProgress + " / " + rounds);
 
@@ -233,15 +233,15 @@ public class QuizActivity extends AppCompatActivity {
         };
             timerTime.start();
     }
-    public void playMusic(int resource, boolean isLooping, boolean stopService){
-        Intent serviceIntent = new Intent(this, MusicService.class);
-        if (stopService){
-            stopService(serviceIntent);
-        } else {
-            serviceIntent.putExtra("musicResource", resource);
-            serviceIntent.putExtra("isLooping", isLooping);
-            startService(serviceIntent);
-        }
-    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        musicPlayer.pause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        musicPlayer.unpause();
+    }
 }

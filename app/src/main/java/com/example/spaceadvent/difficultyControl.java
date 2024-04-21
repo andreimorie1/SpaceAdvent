@@ -34,7 +34,8 @@ public class difficultyControl extends AppCompatActivity {
             return insets;
         });
 
-        playMusic(R.raw.sans, true, false);
+        //play music
+        musicPlayer.start(this, 1, true);
 
         minNum = findViewById(R.id.minNum);
         maxNum = findViewById(R.id.maxNum);
@@ -102,7 +103,6 @@ public class difficultyControl extends AppCompatActivity {
                 timerTime.setVisibility(View.GONE);
                 timerOff.setBackgroundResource(R.drawable.btn_option_correct);
                 changeAnsOn.setBackgroundResource(R.drawable.btn_option_correct);
-                Toast.makeText(difficultyControl.this, "Difficulty reset", Toast.LENGTH_LONG).show();
             }
         });
         //ClickListener Set Button
@@ -130,20 +130,20 @@ public class difficultyControl extends AppCompatActivity {
                     intent.putExtra("timerEnabled", timerEnabled);
                     intent.putExtra("timer", timer);
 
-                    Toast.makeText(difficultyControl.this, "Difficulty Set", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
             }
         });
     }
-    public void playMusic(int resource, boolean isLooping, boolean stopService){
-        Intent serviceIntent = new Intent(this, MusicService.class);
-        if (stopService){
-            stopService(serviceIntent);
-        } else {
-            serviceIntent.putExtra("musicResource", resource);
-            serviceIntent.putExtra("isLooping", isLooping);
-            startService(serviceIntent);
-        }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        musicPlayer.pause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        musicPlayer.unpause();
     }
 }
